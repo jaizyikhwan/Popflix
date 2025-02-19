@@ -8,6 +8,12 @@ jobs:
     executor: android/android
     steps:
       - checkout
+      - run:
+          name: Install JDK 17
+          command: sudo apt update && sudo apt install openjdk-17-jdk -y
+      - run:
+          name: Set JAVA_HOME to JDK 17
+          command: echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> $BASH_ENV && source $BASH_ENV
       - restore_cache:
           key: android-orb-v1-
       - run:
