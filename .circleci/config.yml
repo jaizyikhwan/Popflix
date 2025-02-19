@@ -1,17 +1,22 @@
 version: 2.1
- 
+
 executors:
   android-executor:
     docker:
-      - image: cimg/android:2023.06  # Image Android dengan JDK 17
+      - image: cimg/android:2023.06
     environment:
       JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
- 
+
 jobs:
   build:
     executor: android-executor
     steps:
       - checkout
+      - run:
+          name: Generate local.properties
+          command: |
+            echo "sdk.dir=/opt/android-sdk" > local.properties
+            echo "API_KEY=\"$API_KEY\"" >> local.properties
       - restore_cache:
           key: android-gradle-cache-v1
       - run:
