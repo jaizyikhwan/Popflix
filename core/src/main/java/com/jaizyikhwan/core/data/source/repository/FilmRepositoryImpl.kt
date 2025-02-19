@@ -120,14 +120,12 @@ class FilmRepositoryImpl(
 
     override suspend fun addFavoriteFilm(film: Film) {
         val filmEntity = DataMapper.mapDomainToEntity(film)
-        Log.d("DEBUG", "Menambahkan ke favorit: ${filmEntity.id}")
         localDataSource.insertFilmIfNotExists(filmEntity)
         localDataSource.updateFavoriteStatus(filmEntity.id, true)
     }
 
     override suspend fun removeFavoriteFilm(film: Film) {
         val filmEntity = DataMapper.mapDomainToEntity(film)
-        Log.d("DEBUG", "Menghapus dari favorit: ${filmEntity.id}")
         localDataSource.insertFilmIfNotExists(filmEntity)
         localDataSource.updateFavoriteStatus(filmEntity.id, false)
     }

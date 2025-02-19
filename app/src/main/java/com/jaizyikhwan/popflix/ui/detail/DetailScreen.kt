@@ -34,18 +34,23 @@ fun DetailScreen(filmId: Int, navController: NavHostController) {
 
     val popularFilmsState by viewModel.popularFilms.collectAsState()
     val nowPlayingFilmsState by viewModel.nowPlayingFilms.collectAsState()
+    val topRatedFilmsState by viewModel.topRatedFilms.collectAsState()
+    val upcomingFilmsState by viewModel.upcomingFilms.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
 
     // Mencari film yang sesuai dengan filmId dari daftar yang ada
-    val selectedFilm = (popularFilmsState as? Resource.Success)?.data
-        ?.firstOrNull { it.id == filmId } // Membandingkan dengan filmId yang bertipe Int
-        ?: (nowPlayingFilmsState as? Resource.Success)?.data
-            ?.firstOrNull { it.id == filmId }
+    val selectedFilm = sequenceOf(
+        popularFilmsState,
+        nowPlayingFilmsState,
+        topRatedFilmsState,
+        upcomingFilmsState
+    ).mapNotNull { it as? Resource.Success }
+        .mapNotNull { it.data?.firstOrNull { film -> film.id == filmId } }
+        .firstOrNull()
 
     LaunchedEffect(filmId) {
         viewModel.checkFavoriteStatus(filmId)
     }
-
 
     if (selectedFilm != null) {
         Scaffold(

@@ -18,6 +18,12 @@ class DetailViewModel(private val filmUseCase: FilmUseCase) : ViewModel() {
     private val _nowPlayingFilms = MutableStateFlow<Resource<List<Film>>>(Resource.Loading())
     val nowPlayingFilms: StateFlow<Resource<List<Film>>> = _nowPlayingFilms
 
+    private val _topRatedFilms = MutableStateFlow<Resource<List<Film>>>(Resource.Loading())
+    val topRatedFilms: StateFlow<Resource<List<Film>>> = _topRatedFilms
+
+    private val _upcomingFilms = MutableStateFlow<Resource<List<Film>>>(Resource.Loading())
+    val upcomingFilms: StateFlow<Resource<List<Film>>> = _upcomingFilms
+
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
@@ -44,8 +50,24 @@ class DetailViewModel(private val filmUseCase: FilmUseCase) : ViewModel() {
                 }
             }
 
+            // Load top rated films
+            val topRatedFilmsJob = async {
+                filmUseCase.getTopRatedFilms().collect {
+                    _topRatedFilms.value = it
+                }
+            }
+
+            // Load upcoming films
+            val upcomingFilmsJob = async {
+                filmUseCase.getUpcomingFilms().collect {
+                    _upcomingFilms.value = it
+                }
+            }
+
             popularFilmsJob.await()
             nowPlayingFilmsJob.await()
+            topRatedFilmsJob.await()
+            upcomingFilmsJob.await()
         }
     }
 
