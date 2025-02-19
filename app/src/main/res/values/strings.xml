@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Popflix</string>
+    <string name="title_feature_favorite">Favorite</string>
+</resources>
