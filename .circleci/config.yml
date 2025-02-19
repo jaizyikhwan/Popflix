@@ -1,32 +1,30 @@
 version: 2.1
  
-orbs:
-  android: circleci/android@0.2.1
+executors:
+  android-executor:
+    docker:
+      - image: cimg/android:2023.06  # Image Android dengan JDK 17
+    environment:
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
  
 jobs:
   build:
-    executor: android/android
+    executor: android-executor
     steps:
       - checkout
-      - run:
-          name: Install JDK 17
-          command: sudo apt update && sudo apt install openjdk-17-jdk -y
-      - run:
-          name: Set JAVA_HOME to JDK 17
-          command: echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> $BASH_ENV && source $BASH_ENV
       - restore_cache:
-          key: android-orb-v1-
+          key: android-gradle-cache-v1
       - run:
           name: Chmod permissions
-          command: sudo chmod +x ./gradlew
+          command: chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
+          key: android-gradle-cache-v1
           paths:
-            - ~/.android/build-cache
-            - ~/.android/cache
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
       - run:
           name: Run Build
           command: ./gradlew build
