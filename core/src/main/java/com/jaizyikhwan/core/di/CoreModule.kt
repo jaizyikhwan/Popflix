@@ -10,6 +10,7 @@ import com.jaizyikhwan.core.data.source.repository.FilmRepositoryImpl
 import com.jaizyikhwan.core.domain.repository.FilmRepository
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -65,14 +66,23 @@ val networkModule = module {
         }
     }
 
+    // Menyediakan CertificatePinner untuk Certificate Pinning
+    single {
+        CertificatePinner.Builder()
+            .add("api.themoviedb.org", "sha256/k1Hdw5sdSn5kh/gemLVSQD/P4i4IBQEY1tW4WNxh9XM=")
+            .build()
+    }
+
     // Menyediakan OkHttpClient
     single {
         val loggingInterceptor: HttpLoggingInterceptor = get()
         val tokenInterceptor: Interceptor = get()
+        val certificatePinner: CertificatePinner = get()
 
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(tokenInterceptor)
+            .certificatePinner(certificatePinner)
             .build()
     }
 

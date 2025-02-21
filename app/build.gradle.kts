@@ -38,6 +38,9 @@ android {
     buildFeatures {
         compose = true
     }
+    buildFeatures {
+        buildConfig = true
+    }
     dynamicFeatures += setOf(":feature_favorite")
 }
 

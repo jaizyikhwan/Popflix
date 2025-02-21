@@ -27,3 +27,6 @@
 -keep class okhttp3.logging.HttpLoggingInterceptor { *; }
 
 -keep class com.jaizyikhwan.core.BuildConfig { *; }
+
+
+

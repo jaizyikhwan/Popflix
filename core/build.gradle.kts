@@ -31,7 +31,10 @@ android {
         }
         debug {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -67,6 +70,7 @@ dependencies {
 
     // Room Database
     implementation(libs.androidx.room.ktx)
+    implementation(libs.leakcanary.android.core)
     ksp(libs.androidx.room.compiler)
     implementation(libs.android.database.sqlcipher)
 
