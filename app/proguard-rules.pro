@@ -20,4 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class javax.lang.model.element.Modifier { *; }
+
+
 
