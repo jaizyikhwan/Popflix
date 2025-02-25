@@ -28,7 +28,7 @@
 
 -keep class com.jaizyikhwan.core.BuildConfig { *; }
 
--keep class javax.lang.model.element.Modifier { *; }
+-dontwarn javax.lang.model.element.Modifier
 
 
 

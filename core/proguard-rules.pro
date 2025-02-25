@@ -31,5 +31,5 @@
 -keep class com.jaizyikhwan.core.data.** { *; }
 -keepclassmembers class com.jaizyikhwan.core.data.** { *; }
 
--keep class javax.lang.model.element.Modifier { *; }
+-dontwarn javax.lang.model.element.Modifier
 
