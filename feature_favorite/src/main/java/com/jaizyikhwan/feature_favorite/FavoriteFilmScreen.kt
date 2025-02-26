@@ -2,6 +2,7 @@ package com.jaizyikhwan.feature_favorite
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -50,7 +51,7 @@ fun FavoriteFilmScreen(navController: NavHostController) {
 
     val viewModel = koinViewModel<FavoriteViewModel>()
 
-    val favoriteFilmsState by viewModel.favoriteFilms.collectAsState()
+    val favoriteFilmsState by viewModel.favoriteFilms.collectAsState(initial = emptyList())
 
     Scaffold(
         topBar = { TopBar() },
@@ -80,15 +81,16 @@ fun TopBar() {
         modifier = Modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .padding(horizontal = 8.dp, vertical = 16.dp),
+            .padding(horizontal = 24.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "Favorite Movies",
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
 

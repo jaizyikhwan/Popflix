@@ -25,3 +25,14 @@
 
 # Keep errorprone annotations
 -keep class com.google.errorprone.annotations.** { *; }
+
+# Keep Jetpack Compose related classes
+-keep class androidx.compose.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.activity.** { *; }
+
+# Keep Composable functions
+-keep @androidx.compose.runtime.Composable class * { *; }
+
+# Keep ViewModels
+-keep class * extends androidx.lifecycle.ViewModel { *; }
