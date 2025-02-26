@@ -20,17 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn javax.lang.model.element.Modifier
-
-# Mengabaikan peringatan terkait javax.lang.model.*
--dontwarn javax.lang.model.**
-
-# Menjaga semua kelas di javax.lang.model agar tidak dihapus
+# Keep javax.lang.model.element classes
 -keep class javax.lang.model.** { *; }
 
-# Menambahkan aturan untuk androidx.test agar kompatibel dengan R8 versi terbaru
--keep,allowshrinking class androidx.test.** { <init>(); }
-
-
-
-
+# Keep errorprone annotations
+-keep class com.google.errorprone.annotations.** { *; }

@@ -3,6 +3,7 @@ agp = "8.7.0"
 androidDatabaseSqlcipher = "4.5.3"
 coilCompose = "2.7.0"
 converterGson = "2.9.0"
+error_prone_annotations = "2.18.0"
 foundation = "1.7.6"
 koinAndroid = "3.5.6"
 koinAndroidxCompose = "3.5.6"
@@ -35,6 +36,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error_prone_annotations" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

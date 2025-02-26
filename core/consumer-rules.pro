@@ -27,17 +27,3 @@
 -keep class okhttp3.logging.HttpLoggingInterceptor { *; }
 
 -keep class com.jaizyikhwan.core.BuildConfig { *; }
-
-
-# Mengabaikan peringatan terkait javax.lang.model.*
--dontwarn javax.lang.model.**
-
-# Menjaga semua kelas di javax.lang.model agar tidak dihapus
--keep class javax.lang.model.** { *; }
-
-# Menambahkan aturan untuk androidx.test agar kompatibel dengan R8 versi terbaru
--keep,allowshrinking class androidx.test.** { <init>(); }
-
-
-
-
