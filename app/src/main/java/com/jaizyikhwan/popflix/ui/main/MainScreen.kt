@@ -1,13 +1,16 @@
 package com.jaizyikhwan.popflix.ui.main
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +27,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,8 +38,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +53,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.jaizyikhwan.core.data.Resource
 import com.jaizyikhwan.core.domain.model.Film
@@ -84,9 +94,10 @@ fun MainScreen(
                 } else {
                     // Tampilkan daftar film jika tidak sedang mencari
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.weight(1f)
                     ) {
-                        item { FilmSection("Now Playing Movies", nowPlayingFilmsState, navController) }
+                        item { NowPlayingFilmSection(nowPlayingFilmsState, navController) }
                         item { FilmSection("Popular Movies", popularFilmsState, navController) }
                         item { FilmSection("Top Rated Movies", topRatedFilmsState, navController) }
                         item { FilmSection("Upcoming Movies", upcomingFilmsState, navController) }
@@ -119,6 +130,134 @@ fun TopBar(viewModel: MainViewModel) {
         )
         Spacer(modifier = Modifier.weight(1f))
         SearchField(viewModel)
+    }
+}
+
+@Composable
+fun NowPlayingFilmSection(filmState: Resource<List<Film>>, navController: NavHostController) {
+    when (filmState) {
+        is Resource.Loading -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        is Resource.Success -> {
+            filmState.data?.let { films ->
+                Column {
+                    Text(
+                        text = "Now Playing Film",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        items(films) { film ->
+                            NowPlayingFilmItem(film, navController)
+                        }
+                    }
+                }
+            }
+        }
+        is Resource.Error -> {
+            Text(
+                text = "Error: ${filmState.message}"
+            )
+        }
+    }
+}
+
+@Composable
+fun NowPlayingFilmItem(film: Film, navController: NavHostController) {
+    val imageUrl = "https://image.tmdb.org/t/p/w500${film.backdropPath}"
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp - 32.dp
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .width(screenWidth)
+            .height(IntrinsicSize.Max)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { navController.navigate("detail/${film.id}") }
+    ) {
+        // Background Blur
+        Card(
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(12.dp)) // Clip agar gambar tidak keluar dari Card
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .blur(100.dp),
+                    model = imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+
+        // Gradient Overlay
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .align(Alignment.BottomCenter),
+            onDraw = {
+                drawRect(
+                    Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.8f)))
+                )
+            }
+        )
+
+        // Movie Details
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .aspectRatio(2f / 3f),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                AsyncImage(
+                    modifier = Modifier.fillMaxSize(),
+                    model = imageUrl,
+                    contentDescription = film.title,
+                    contentScale = ContentScale.Crop
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = film.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = film.releaseDate.take(4),
+                fontSize = 12.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -268,7 +407,10 @@ fun SearchResults(searchResults: List<Film>, navController: NavHostController) {
     } else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 200.dp, max = 600.dp)
+                .padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
