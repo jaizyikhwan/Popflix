@@ -1,4 +1,8 @@
-# <img src="app/src/main/res/drawable/logo_project2.png" width="32"> PopFlix
+<p align="center">
+  <img src="images/PopflixBanner.png" width="100%">
+</p>
+
+# <img src="app/src/main/res/drawable/logo_project2.png" width="40"> Popflix
 
 ![CircleCI](https://circleci.com/gh/jaizyikhwan/Popflix.svg?style=shield)
 
@@ -28,7 +32,7 @@ PopFlix is an Android application built with Kotlin Jetpack Compose that allows 
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/jaizyikhwan/Popflix.git
+  git clone https://github.com/jaizyikhwan/Popflix.git
 ```
 
 2. **Open the project in Android Studio**
@@ -44,7 +48,7 @@ git clone https://github.com/jaizyikhwan/Popflix.git
 In the project root, create (or update) a file named local.properties and add the following line:
 
 ```bash
-API_KEY=YOUR_API_KEY_HERE
+  API_KEY=YOUR_API_KEY_HERE
 ```
 
 5. **Run the application on an emulator or a physical device**
