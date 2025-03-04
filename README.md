@@ -2,7 +2,7 @@
   <img src="images/PopflixBanner.png" width="100%">
 </p>
 
-# <img src="app/src/main/res/drawable/logo_project2.png" width="50"> **Popflix**
+# <img src="app/src/main/res/drawable/logo_project2.png" width="42"> **Popflix**
 
 ![CircleCI](https://circleci.com/gh/jaizyikhwan/Popflix.svg?style=shield)
 
