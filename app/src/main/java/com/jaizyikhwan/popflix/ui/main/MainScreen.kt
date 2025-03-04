@@ -150,7 +150,7 @@ fun NowPlayingFilmSection(filmState: Resource<List<Film>>, navController: NavHos
             filmState.data?.let { films ->
                 Column {
                     Text(
-                        text = "Now Playing Film",
+                        text = "Now Playing Movies",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
                         modifier = Modifier.padding(horizontal = 16.dp)
