@@ -2,11 +2,11 @@
   <img src="images/PopflixBanner.png" width="100%">
 </p>
 
-# <img src="app/src/main/res/drawable/logo_project2.png" width="40"> Popflix
+# <img src="app/src/main/res/drawable/logo_project2.png" width="50"> **Popflix**
 
 ![CircleCI](https://circleci.com/gh/jaizyikhwan/Popflix.svg?style=shield)
 
-PopFlix is an Android application built with Kotlin Jetpack Compose that allows users to discover and explore movies using TheMovieDB API. This project fully leverages Kotlin's capabilities while promoting a collaborative learning experience.
+PopFlix is an Android application built with Kotlin Jetpack Compose that allows users to discover and explore movies using TheMovieDB API. Designed with a modern and intuitive UI, this app provides a seamless movie browsing experience.
 
 ## Features
 
